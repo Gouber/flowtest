@@ -100,7 +100,6 @@ void test_riskOnBuyingAndSellingSingleInstrumentWithDisconnect(){
 }
 
 void test_riskOnBuyingMultipleInstrumentsWithDisconnect(){
-        printf("A");
 
     sleep(1);
     Client* c = new Client(8080);
