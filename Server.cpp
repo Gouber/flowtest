@@ -19,35 +19,36 @@
 
 using namespace std;
 
-void sendResponse(int sd, int yesOrNo, uint64_t orderId){
-    OrderResponse* response = new OrderResponse();
-    response->orderId = orderId;
-    if(yesOrNo == 1){
-        response->status = OrderResponse::Status::ACCEPTED;
-    }else{
-        response->status = OrderResponse::Status::REJECTED;
+class Server{
+    void sendResponse(int sd, int yesOrNo, uint64_t orderId){
+        OrderResponse* response = new OrderResponse();
+        response->orderId = orderId;
+        if(yesOrNo == 1){
+            response->status = OrderResponse::Status::ACCEPTED;
+        }else{
+            response->status = OrderResponse::Status::REJECTED;
+        }
+        if(send(sd,response,12,0) != 12){
+            perror("Could not send response");
+        }
     }
-    if(send(sd,response,12,0) != 12){
-        perror("Could not send response");
-    }
-}
 
-void addSocket(vector<int>& socketsSoFar, int socketid){
-    socketsSoFar.push_back(socketid);
-}
-void cleanup(vector<int>& socketsSoFar, vector<int>& socketid){
-    if(socketid.size() == 0){
-        return;
+    void addSocket(vector<int>& socketsSoFar, int socketid){
+        socketsSoFar.push_back(socketid);
     }
-    for(int deletenow: socketid){
-        auto it = find(socketsSoFar.begin(), socketsSoFar.end(), deletenow);
-        socketsSoFar.erase(it);
+    void cleanup(vector<int>& socketsSoFar, vector<int>& socketid){
+        if(socketid.size() == 0){
+            return;
+        }
+        for(int deletenow: socketid){
+            auto it = find(socketsSoFar.begin(), socketsSoFar.end(), deletenow);
+            socketsSoFar.erase(it);
+        }
     }
-}
 
-
-int main(){
-    int opt = 1;
+    public:
+        Server(){
+                int opt = 1;
     //all the individual socket "handlers"
 
     int buyThreshold = 20;
@@ -101,7 +102,6 @@ int main(){
 
     addrlen = sizeof(address);
     puts("Waiting for connections");
-
     while(true){
         FD_ZERO(&readfds);
         FD_SET(master_socket, &readfds);
@@ -340,5 +340,10 @@ int main(){
         }
         cleanup(socketsSoFar,toDeleteLater);
     }
+        }
+};
+
+int main(){
+    Server s;
     return 0;
 }
