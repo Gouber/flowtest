@@ -70,22 +70,22 @@ struct NewOrderWithHeader{
     Header header;
     NewOrder newOrder;
 }__attribute__((__packed__));
-static_assert(sizeof(NewOrderWithHeader) == 51, "Not correct");
+static_assert(sizeof(NewOrderWithHeader) == 51, "The NewOrderWithHeader size is not correct");
 
 struct DeleteOrderWithHeader{
     Header header;
     DeleteOrder deleteOrder;
 }__attribute__((__packed__));
-static_assert(sizeof(DeleteOrderWithHeader) == 26, "Not correct");
+static_assert(sizeof(DeleteOrderWithHeader) == 26, "The DeleteOrderWithHeader size is not correct");
 
 struct ModifyOrderQuantityWithHeader{
     Header header;
     ModifyOrderQuantity modifyOrderQuantity;
 }__attribute__((__packed__));
-static_assert(sizeof(ModifyOrderQuantityWithHeader) == 34, "Not correct");
+static_assert(sizeof(ModifyOrderQuantityWithHeader) == 34, "The ModifyOrderQuantityWithHeader size is not correct");
 
 struct TradeWithHeader{
     Header header;
     Trade trade;
 }__attribute__((__packed__));
-static_assert(sizeof(TradeWithHeader) == 50, "Not correct");
+static_assert(sizeof(TradeWithHeader) == 50, "The TradeWithHeader size is not correct");
